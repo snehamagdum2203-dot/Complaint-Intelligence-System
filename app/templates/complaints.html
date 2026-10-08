@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Management</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/complaint.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+    <header class="header">
+
+        <h1>Complaint Intelligence System</h1>
+
+        <p>Complaint Management Portal</p>
+
+    </header>
+
+
+    <main class="container">
+
+        <div class="form-card">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+
+                <div>
+
+                    <h1 class="page-title">
+                        Complaint Management
+                    </h1>
+
+                    <p class="page-description" style="margin-bottom: 0;">
+                        View and monitor all registered complaints.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('main.new_complaint') }}"
+                    style="
+                        background: #2563eb;
+                        color: white;
+                        padding: 11px 18px;
+                        border-radius: 7px;
+                        text-decoration: none;
+                        font-size: 14px;
+                        font-weight: 600;
+                    "
+                >
+                    + New Complaint
+                </a>
+
+            </div>
+
+
+            <div style="overflow-x: auto;">
+
+                <table
+                    style="
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-size: 14px;
+                    "
+                >
+
+                    <thead>
+
+                        <tr style="background: #f3f6fa;">
+
+                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
+                                ID
+                            </th>
+
+                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
+                                Customer
+                            </th>
+
+                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
+                                Complaint
+                            </th>
+
+                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
+                                Category
+                            </th>
+
+                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
+                                Priority
+                            </th>
+
+                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
+                                Status
+                            </th>
+
+                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
+                                Department
+                            </th>
+
+                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
+                                Created
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for complaint in complaints %}
+
+                        <tr>
+
+                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
+                                #{{ complaint["id"] }}
+                            </td>
+
+
+                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
+
+                                <strong>
+                                    {{ complaint["customer_name"] }}
+                                </strong>
+
+                                <br>
+
+                                <small style="color: #6b7280;">
+                                    {{ complaint["customer_code"] }}
+                                </small>
+
+                            </td>
+
+
+                            <td style="padding: 14px; border-bottom: 1px solid #eee; max-width: 260px;">
+
+                                {{ complaint["complaint_text"] }}
+
+                            </td>
+
+
+                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
+
+                                {{ complaint["category"] }}
+
+                            </td>
+
+
+                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
+
+                                {{ complaint["priority"] }}
+
+                            </td>
+
+
+                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
+
+                                {{ complaint["status"] }}
+
+                            </td>
+
+
+                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
+
+                                {{ complaint["department"] }}
+
+                            </td>
+
+
+                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
+
+                                {{ complaint["created_at"] }}
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                style="
+                                    padding: 40px;
+                                    text-align: center;
+                                    color: #6b7280;
+                                "
+                            >
+
+                                No complaints found.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>

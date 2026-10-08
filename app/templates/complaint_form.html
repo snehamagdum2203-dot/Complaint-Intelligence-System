@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register Complaint</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/complaint.css') }}"
+    >
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Complaint Intelligence System</h1>
+        <p>Complaint Registration Portal</p>
+    </header>
+
+
+    <main class="container">
+
+        <div class="form-card">
+
+            <h1 class="page-title">Register Complaint</h1>
+
+            <p class="page-description">
+                Enter customer and complaint details to create a new complaint record.
+            </p>
+
+
+            <!-- Success / Error Messages -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="alert {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form method="POST">
+
+                <!-- Customer Details -->
+
+                <div class="section">
+
+                    <h2>Customer Details</h2>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label for="customer_code">
+                                Customer Code
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customer_code"
+                                name="customer_code"
+                                placeholder="e.g. C001"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="customer_name">
+                                Customer Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customer_name"
+                                name="customer_name"
+                                placeholder="Enter customer name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="customer@example.com"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                placeholder="10-digit mobile number"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Complaint Details -->
+
+                <div class="section">
+
+                    <h2>Complaint Details</h2>
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+
+                            <label for="complaint_text">
+                                Complaint Description
+                            </label>
+
+                            <textarea
+                                id="complaint_text"
+                                name="complaint_text"
+                                placeholder="Describe the customer's complaint in detail..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="priority">
+                                Priority
+                            </label>
+
+                            <select
+                                id="priority"
+                                name="priority"
+                                required
+                            >
+
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                                <option value="Medium" selected>
+                                    Medium
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                                <option value="Critical">
+                                    Critical
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="department">
+                                Department
+                            </label>
+
+                            <select
+                                id="department"
+                                name="department"
+                                required
+                            >
+
+                                <option value="Customer Service">
+                                    Customer Service
+                                </option>
+
+                                <option value="Delivery">
+                                    Delivery
+                                </option>
+
+                                <option value="Payment">
+                                    Payment
+                                </option>
+
+                                <option value="Technical">
+                                    Technical
+                                </option>
+
+                                <option value="Product">
+                                    Product
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submit Button -->
+
+                <div class="form-actions">
+
+                    <button type="submit">
+                        Register Complaint
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
