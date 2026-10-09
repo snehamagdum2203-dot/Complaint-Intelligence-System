@@ -1,220 +1,294 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Complaint Management</title>
+```
+<title>Complaint Management</title>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/complaint.css') }}"
-    >
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/complaint.css') }}"
+>
+
+<style>
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .complaint-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .complaint-table th {
+        padding: 14px;
+        text-align: left;
+        background: #f3f6fa;
+        border-bottom: 1px solid #ddd;
+        white-space: nowrap;
+    }
+
+    .complaint-table td {
+        padding: 14px;
+        border-bottom: 1px solid #eee;
+        vertical-align: top;
+    }
+
+    .complaint-table tr:hover {
+        background: #fafcff;
+    }
+
+    .status-form {
+        min-width: 145px;
+    }
+
+    .status-form select {
+        padding: 9px;
+        margin-bottom: 8px;
+    }
+
+    .status-form button {
+        width: 100%;
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    .new-complaint-button {
+        display: inline-block;
+        background: #2563eb;
+        color: white;
+        padding: 11px 18px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .new-complaint-button:hover {
+        background: #1d4ed8;
+    }
+
+    .alert {
+        padding: 13px 16px;
+        border-radius: 7px;
+        margin-bottom: 18px;
+        font-size: 14px;
+    }
+
+    .alert.success {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+    }
+
+    .alert.error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        background: #f3f4f6;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    @media (max-width: 600px) {
+        .page-header-row {
+            align-items: flex-start !important;
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+</style>
+```
 
 </head>
 
-
 <body>
 
-    <header class="header">
+```
+<header class="header">
+    <h1>Complaint Intelligence System</h1>
+    <p>Complaint Management Portal</p>
+</header>
 
-        <h1>Complaint Intelligence System</h1>
+<main class="container">
 
-        <p>Complaint Management Portal</p>
+    <div class="form-card">
 
-    </header>
+        <div class="page-header-row"
+             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
 
+            <div>
+                <h1 class="page-title">Complaint Management</h1>
 
-    <main class="container">
-
-        <div class="form-card">
-
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-
-                <div>
-
-                    <h1 class="page-title">
-                        Complaint Management
-                    </h1>
-
-                    <p class="page-description" style="margin-bottom: 0;">
-                        View and monitor all registered complaints.
-                    </p>
-
-                </div>
-
-
-                <a
-                    href="{{ url_for('main.new_complaint') }}"
-                    style="
-                        background: #2563eb;
-                        color: white;
-                        padding: 11px 18px;
-                        border-radius: 7px;
-                        text-decoration: none;
-                        font-size: 14px;
-                        font-weight: 600;
-                    "
-                >
-                    + New Complaint
-                </a>
-
+                <p class="page-description" style="margin-bottom: 0;">
+                    View, monitor, and update registered complaints.
+                </p>
             </div>
 
-
-            <div style="overflow-x: auto;">
-
-                <table
-                    style="
-                        width: 100%;
-                        border-collapse: collapse;
-                        font-size: 14px;
-                    "
-                >
-
-                    <thead>
-
-                        <tr style="background: #f3f6fa;">
-
-                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
-                                ID
-                            </th>
-
-                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
-                                Customer
-                            </th>
-
-                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
-                                Complaint
-                            </th>
-
-                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
-                                Category
-                            </th>
-
-                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
-                                Priority
-                            </th>
-
-                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
-                                Status
-                            </th>
-
-                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
-                                Department
-                            </th>
-
-                            <th style="padding: 14px; text-align: left; border-bottom: 1px solid #ddd;">
-                                Created
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        {% for complaint in complaints %}
-
-                        <tr>
-
-                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
-                                #{{ complaint["id"] }}
-                            </td>
-
-
-                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
-
-                                <strong>
-                                    {{ complaint["customer_name"] }}
-                                </strong>
-
-                                <br>
-
-                                <small style="color: #6b7280;">
-                                    {{ complaint["customer_code"] }}
-                                </small>
-
-                            </td>
-
-
-                            <td style="padding: 14px; border-bottom: 1px solid #eee; max-width: 260px;">
-
-                                {{ complaint["complaint_text"] }}
-
-                            </td>
-
-
-                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
-
-                                {{ complaint["category"] }}
-
-                            </td>
-
-
-                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
-
-                                {{ complaint["priority"] }}
-
-                            </td>
-
-
-                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
-
-                                {{ complaint["status"] }}
-
-                            </td>
-
-
-                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
-
-                                {{ complaint["department"] }}
-
-                            </td>
-
-
-                            <td style="padding: 14px; border-bottom: 1px solid #eee;">
-
-                                {{ complaint["created_at"] }}
-
-                            </td>
-
-                        </tr>
-
-                        {% else %}
-
-                        <tr>
-
-                            <td
-                                colspan="8"
-                                style="
-                                    padding: 40px;
-                                    text-align: center;
-                                    color: #6b7280;
-                                "
-                            >
-
-                                No complaints found.
-
-                            </td>
-
-                        </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
+            <a
+                href="{{ url_for('main.new_complaint') }}"
+                class="new-complaint-button"
+            >
+                + New Complaint
+            </a>
 
         </div>
 
-    </main>
+        <!-- Success and error messages -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Complaints table -->
+
+        <div class="table-wrapper">
+
+            <table class="complaint-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Complaint</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Status / Update</th>
+                        <th>Department</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for complaint in complaints %}
+
+                    <tr>
+
+                        <td>
+                            #{{ complaint["id"] }}
+                        </td>
+
+                        <td>
+                            <strong>{{ complaint["customer_name"] }}</strong>
+                            <br>
+                            <small style="color: #6b7280;">
+                                {{ complaint["customer_code"] }}
+                            </small>
+                        </td>
+
+                        <td style="min-width: 220px; max-width: 300px;">
+                            {{ complaint["complaint_text"] }}
+                        </td>
+
+                        <td>
+                            {{ complaint["category"] }}
+                        </td>
+
+                        <td>
+                            <span class="status-badge">
+                                {{ complaint["priority"] }}
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <form
+                                class="status-form"
+                                method="POST"
+                                action="{{ url_for('main.update_complaint_status', complaint_id=complaint['id']) }}"
+                            >
+
+                                <select name="status" required>
+
+                                    <option value="Open"
+                                        {% if complaint["status"] == "Open" %}selected{% endif %}>
+                                        Open
+                                    </option>
+
+                                    <option value="In Progress"
+                                        {% if complaint["status"] == "In Progress" %}selected{% endif %}>
+                                        In Progress
+                                    </option>
+
+                                    <option value="Resolved"
+                                        {% if complaint["status"] == "Resolved" %}selected{% endif %}>
+                                        Resolved
+                                    </option>
+
+                                    <option value="Closed"
+                                        {% if complaint["status"] == "Closed" %}selected{% endif %}>
+                                        Closed
+                                    </option>
+
+                                </select>
+
+                                <button type="submit">
+                                    Update Status
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                        <td>
+                            {{ complaint["department"] }}
+                        </td>
+
+                        <td style="min-width: 145px;">
+                            {{ complaint["created_at"] }}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="8"
+                            style="padding: 40px; text-align: center; color: #6b7280;">
+                            No complaints found.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div style="margin-top: 25px;">
+            <a href="{{ url_for('main.dashboard') }}"
+               style="color: #2563eb; text-decoration: none; font-weight: 600;">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+
+</main>
+```
 
 </body>
-
 </html>
